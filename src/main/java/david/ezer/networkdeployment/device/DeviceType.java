@@ -18,12 +18,12 @@ public enum DeviceType {
 
     @JsonCreator
     public static DeviceType fromText(String value) {
-        return switch(value) {
-            case "Gateway" -> GATEWAY;
-            case "Switch" -> SWITCH;
-            case "Access Point" -> ACCESS_POINT;
-            default -> throw new IllegalArgumentException("Unknown device type: " + value);
-        };
+    return switch (value) {
+      case "Gateway" -> GATEWAY;
+      case "Switch" -> SWITCH;
+      case "Access Point" -> ACCESS_POINT;
+      default -> throw new UnknownDeviceTypeException(value);
+    };
     }
 }
 
