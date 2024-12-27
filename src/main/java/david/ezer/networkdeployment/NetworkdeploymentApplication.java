@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NetworkdeploymentApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(NetworkdeploymentApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(NetworkdeploymentApplication.class, args);
+  }
 }

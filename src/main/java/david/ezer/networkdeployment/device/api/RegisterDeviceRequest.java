@@ -5,7 +5,7 @@ import david.ezer.networkdeployment.device.DeviceType;
 
 public record RegisterDeviceRequest(String deviceType, String macAddress, String upLinkMacAddress) {
 
-    public Device toDevice(int deploymentId) {
-        return new Device(DeviceType.fromText(deviceType), macAddress, upLinkMacAddress, deploymentId);
-    }
+  public Device toDevice(int deploymentId) {
+    return new Device(DeviceType.fromText(deviceType), macAddress, upLinkMacAddress, deploymentId);
+  }
 }
