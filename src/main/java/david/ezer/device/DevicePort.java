@@ -6,7 +6,7 @@ public interface DevicePort {
 
   String registerDevice(Device device);
 
-  List<Device> getAllDevices(int deploymentId);
+  List<Device> getAllDevices();
 
   Device getDevice(String macAddress);
 

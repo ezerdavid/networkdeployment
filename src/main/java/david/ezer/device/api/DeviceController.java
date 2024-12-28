@@ -1,5 +1,6 @@
 package david.ezer.device.api;
 
+import david.ezer.device.Device;
 import david.ezer.device.GetAllDevices;
 import david.ezer.device.GetDevice;
 import david.ezer.device.GetDevicesTopology;
@@ -29,35 +30,30 @@ public class DeviceController {
   private final GetSingleDeviceTopology getSingleDeviceTopology;
   private final RegisterDevice registerDevice;
 
-  @PostMapping("{deploymentId}/devices")
+  @PostMapping("/devices")
   public ResponseEntity<Void> registerDevice(
-      @PathVariable("deploymentId") int deploymentId,
       @RequestBody RegisterDeviceRequest registerDeviceRequest) {
-    var device = registerDeviceRequest.toDevice(deploymentId);
-    log.atInfo().addKeyValue("deploymentId", deploymentId).log("Registering device {}", device);
+    var device = registerDeviceRequest.toDevice();
+    log.atInfo()
+        .addKeyValue(Device.Fields.macAddress, registerDeviceRequest.macAddress())
+        .log("Registering device {}", device);
 
     var id = registerDevice.handle(device);
-    var uri = URI.create(String.format("/%s/devices/%s", deploymentId, id));
+    var uri = URI.create(String.format("/devices/%s", id));
     return ResponseEntity.created(uri).build();
   }
 
-  @GetMapping("{deploymentId}/devices")
-  public ResponseEntity<List<RegisteredDeviceResponse>> getDevices(
-      @PathVariable("deploymentId") int deploymentId) {
-    var devices =
-        getAllDevices.handle(deploymentId).stream().map(RegisteredDeviceResponse::new).toList();
+  @GetMapping("/devices")
+  public ResponseEntity<List<RegisteredDeviceResponse>> getDevices() {
+    log.atInfo().log("Get all registered devices");
+    var devices = getAllDevices.handle().stream().map(RegisteredDeviceResponse::new).toList();
 
     return ResponseEntity.ok(devices);
   }
 
-  @GetMapping("{deploymentId}/devices/{macAddress}")
-  public ResponseEntity<RegisteredDeviceResponse> getDevice(
-      @PathVariable String macAddress, @PathVariable String deploymentId) {
-    log.atInfo()
-        .addKeyValue("deploymentId", deploymentId)
-        .addKeyValue("macAddress", macAddress)
-        .log("Getting device for deployment");
-
+  @GetMapping("/devices/{macAddress}")
+  public ResponseEntity<RegisteredDeviceResponse> getDevice(@PathVariable String macAddress) {
+    log.atInfo().addKeyValue(Device.Fields.macAddress, macAddress).log("Getting single device");
     var device = getDevice.handle(macAddress);
     var response = new RegisteredDeviceResponse(device);
 
@@ -66,6 +62,7 @@ public class DeviceController {
 
   @GetMapping("/devices/topology")
   public ResponseEntity<Set<DeviceTopologyResponse>> getTopology() {
+    log.atInfo().log("Get devices topology");
     var topology =
         getDevicesTopology.handle().stream()
             .map(DeviceTopologyResponse::new)
@@ -76,6 +73,7 @@ public class DeviceController {
 
   @GetMapping("/devices/topology/{macAddress}")
   public ResponseEntity<DeviceTopologyResponse> getDeviceTopology(@PathVariable String macAddress) {
+    log.atInfo().addKeyValue(Device.Fields.macAddress, macAddress).log("Get single device topology");
     var device = getSingleDeviceTopology.handle(macAddress);
     var response = new DeviceTopologyResponse(device);
 

@@ -26,7 +26,6 @@ public class DeviceEntity {
 
   public DeviceEntity(Device device) {
     macAddress = device.macAddress();
-    deploymentId = device.deploymentId();
     deviceType = device.deviceType().toString();
     uplinkMacAddress = device.upLinkMacAddress();
   }
@@ -34,8 +33,6 @@ public class DeviceEntity {
   @Id
   @Column(name = "MAC_ADDRESS")
   private String macAddress;
-
-  private int deploymentId;
 
   private String deviceType;
 
@@ -51,6 +48,6 @@ public class DeviceEntity {
         this.linkedDevices.stream().map(DeviceEntity::toDevice).collect(Collectors.toSet());
 
     return new Device(
-        DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, deploymentId, linked);
+        DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, linked);
   }
 }
