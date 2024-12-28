@@ -1,7 +1,7 @@
-package david.ezer.networkdeployment.device.api;
+package david.ezer.device.api;
 
-import david.ezer.networkdeployment.device.Device;
-import david.ezer.networkdeployment.device.DeviceType;
+import david.ezer.device.Device;
+import david.ezer.device.DeviceType;
 
 public record RegisterDeviceRequest(String deviceType, String macAddress, String upLinkMacAddress) {
 

@@ -1,7 +1,7 @@
-package david.ezer.networkdeployment.device.infrastructure;
+package david.ezer.device.infrastructure;
 
-import david.ezer.networkdeployment.device.DeploymentRepository;
-import david.ezer.networkdeployment.device.Device;
+import david.ezer.device.DevicePort;
+import david.ezer.device.Device;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DeploymentInMemoryRepository implements DeploymentRepository {
+public class DeviceInMemoryAdapter implements DevicePort {
 
   @PersistenceContext private EntityManager em;
 

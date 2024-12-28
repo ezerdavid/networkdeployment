@@ -1,9 +1,9 @@
-package david.ezer.networkdeployment.device;
+package david.ezer.device;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public record RegisterDevice(DeploymentRepository deploymentRepository) {
+public record RegisterDevice(DevicePort deploymentRepository) {
 
   public String handle(Device device) {
     return deploymentRepository.registerDevice(device);

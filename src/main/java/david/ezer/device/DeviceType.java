@@ -1,4 +1,4 @@
-package david.ezer.networkdeployment.device;
+package david.ezer.device;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -24,6 +24,15 @@ public enum DeviceType {
       case "Gateway" -> GATEWAY;
       case "Switch" -> SWITCH;
       case "Access Point" -> ACCESS_POINT;
+      default -> throw new UnknownDeviceTypeException(value);
+    };
+  }
+
+  public int orderNumber() {
+    return switch (value) {
+      case "Gateway" -> 1;
+      case "Switch" -> 2;
+      case "Access Point" -> 3;
       default -> throw new UnknownDeviceTypeException(value);
     };
   }

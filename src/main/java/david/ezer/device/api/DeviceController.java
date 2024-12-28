@@ -1,7 +1,8 @@
-package david.ezer.networkdeployment.device.api;
+package david.ezer.device.api;
 
-import david.ezer.networkdeployment.device.GetAllDevices;
-import david.ezer.networkdeployment.device.RegisterDevice;
+import david.ezer.device.GetAllDevices;
+import david.ezer.device.GetDevice;
+import david.ezer.device.RegisterDevice;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DeviceController {
 
-  private final GetAllDevices getAllRegisteredDevices;
+  private final GetAllDevices getAllDevices;
+  private final GetDevice getDevice;
   private final RegisterDevice registerDevice;
 
   @PostMapping("{deploymentId}/devices")
@@ -37,10 +39,21 @@ public class DeviceController {
   public ResponseEntity<List<RegisteredDeviceResponse>> getDevices(
       @PathVariable("deploymentId") int deploymentId) {
     var devices =
-        getAllRegisteredDevices.handle(deploymentId).stream()
-            .map(RegisteredDeviceResponse::new)
-            .toList();
+        getAllDevices.handle(deploymentId).stream().map(RegisteredDeviceResponse::new).toList();
 
     return ResponseEntity.ok(devices);
+  }
+
+  @GetMapping("{deploymentId}/devices/{macAddress}")
+  public ResponseEntity<RegisteredDeviceResponse> getDevice(@PathVariable String macAddress, @PathVariable String deploymentId) {
+    log.atInfo()
+            .addKeyValue("deploymentId", deploymentId)
+            .addKeyValue("macAddress", macAddress)
+            .log("Getting device for deployment");
+
+    var device = getDevice.handle(macAddress);
+    var response = new RegisteredDeviceResponse(device);
+
+    return ResponseEntity.ok(response);
   }
 }

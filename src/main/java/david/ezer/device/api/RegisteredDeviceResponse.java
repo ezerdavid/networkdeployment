@@ -1,6 +1,6 @@
-package david.ezer.networkdeployment.device.api;
+package david.ezer.device.api;
 
-import david.ezer.networkdeployment.device.Device;
+import david.ezer.device.Device;
 
 public record RegisteredDeviceResponse(String deviceType, String macAddress) {
 

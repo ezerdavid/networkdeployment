@@ -1,4 +1,4 @@
-package david.ezer.networkdeployment.device;
+package david.ezer.device;
 
 import java.io.Serial;
 import org.springframework.http.HttpStatus;

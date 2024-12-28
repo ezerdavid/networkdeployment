@@ -1,6 +1,6 @@
-package david.ezer.networkdeployment.device.infrastructure;
+package david.ezer.device.infrastructure;
 
-import david.ezer.networkdeployment.device.UnknownDeviceTypeException;
+import david.ezer.device.UnknownDeviceTypeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class DeploymentExceptionHandler extends ResponseEntityExceptionHandler {
+public class DeviceExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(value = UnknownDeviceTypeException.class)
   public ResponseEntity<Object> handle(UnknownDeviceTypeException e, WebRequest request) {

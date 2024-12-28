@@ -1,8 +1,8 @@
-package david.ezer.networkdeployment.device;
+package david.ezer.device;
 
 import java.util.List;
 
-public interface DeploymentRepository {
+public interface DevicePort {
 
   String registerDevice(Device device);
 

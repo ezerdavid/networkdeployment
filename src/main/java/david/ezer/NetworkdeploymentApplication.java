@@ -1,4 +1,4 @@
-package david.ezer.networkdeployment;
+package david.ezer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
