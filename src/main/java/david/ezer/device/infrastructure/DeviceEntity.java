@@ -47,7 +47,6 @@ public class DeviceEntity {
     var linked =
         this.linkedDevices.stream().map(DeviceEntity::toDevice).collect(Collectors.toSet());
 
-    return new Device(
-        DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, linked);
+    return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, linked);
   }
 }
