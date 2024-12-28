@@ -17,4 +17,11 @@ public class DeviceExceptionHandler extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(
         e, errorResponse, new HttpHeaders(), UnknownDeviceTypeException.STATUS_CODE, request);
   }
+
+  @ExceptionHandler(value = DeviceNotFoundException.class)
+  public ResponseEntity<Object> handle(DeviceNotFoundException e, WebRequest request) {
+    var errorResponse = new ErrorResponse(e.getErrorMessage());
+    return handleExceptionInternal(
+            e, errorResponse, new HttpHeaders(), DeviceNotFoundException.STATUS_CODE, request);
+  }
 }

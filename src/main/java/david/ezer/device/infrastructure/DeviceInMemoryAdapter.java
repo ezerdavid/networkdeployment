@@ -36,7 +36,13 @@ public class DeviceInMemoryAdapter implements DevicePort {
 
   @Override
   public Device getDevice(String macAddress) {
-    return em.find(DeviceEntity.class, macAddress).toDevice();
+    var foundEntity = em.find(DeviceEntity.class, macAddress);
+
+    if (foundEntity == null) {
+      throw new DeviceNotFoundException(macAddress);
+    }
+
+    return foundEntity.toDevice();
   }
 
   @Override
@@ -55,10 +61,15 @@ public class DeviceInMemoryAdapter implements DevicePort {
   public Device getSingleDeviceTopology(String macAddress) {
     var deviceEntityGraph = em.createEntityGraph(DeviceEntity.class);
     deviceEntityGraph.addAttributeNodes(DeviceEntity_.linkedDevices);
-    return em.find(
+    var foundEntity = em.find(
             DeviceEntity.class,
             macAddress,
-            Collections.singletonMap("jakarta.persistence.fetchgraph", deviceEntityGraph))
-        .toDevice();
+            Collections.singletonMap("jakarta.persistence.fetchgraph", deviceEntityGraph));
+
+    if (foundEntity == null) {
+      throw new DeviceNotFoundException(macAddress);
+    }
+
+    return foundEntity.toDevice();
   }
 }
