@@ -1,5 +1,6 @@
 package david.ezer.device.infrastructure;
 
+import david.ezer.device.InvalidMacAddressException;
 import david.ezer.device.UnknownDeviceTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +22,14 @@ public class DeviceExceptionHandler extends ResponseEntityExceptionHandler {
     var errorResponse = new ErrorResponse(e.getErrorMessage());
     return handleExceptionInternal(
         e, errorResponse, new HttpHeaders(), UnknownDeviceTypeException.STATUS_CODE, request);
+  }
+
+  @ExceptionHandler(value = InvalidMacAddressException.class)
+  public ResponseEntity<Object> handle(InvalidMacAddressException e, WebRequest request) {
+    log.atError().log(e.getErrorMessage(), e);
+    var errorResponse = new ErrorResponse(e.getErrorMessage());
+    return handleExceptionInternal(
+            e, errorResponse, new HttpHeaders(), UnknownDeviceTypeException.STATUS_CODE, request);
   }
 
   @ExceptionHandler(value = DeviceNotFoundException.class)
