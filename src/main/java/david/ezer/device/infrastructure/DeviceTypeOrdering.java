@@ -10,5 +10,4 @@ public class DeviceTypeOrdering {
 
   @Id private String deviceType;
   private int orderKey;
-
 }

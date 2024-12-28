@@ -47,11 +47,10 @@ public class DeviceEntity {
   private Set<DeviceEntity> linkedDevices;
 
   public Device toDevice() {
-    var linked = this.linkedDevices
-            .stream()
-            .map(DeviceEntity::toDevice)
-            .collect(Collectors.toSet());
+    var linked =
+        this.linkedDevices.stream().map(DeviceEntity::toDevice).collect(Collectors.toSet());
 
-    return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, deploymentId, linked);
+    return new Device(
+        DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, deploymentId, linked);
   }
 }
