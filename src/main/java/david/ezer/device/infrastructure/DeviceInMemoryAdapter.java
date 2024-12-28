@@ -30,7 +30,10 @@ public class DeviceInMemoryAdapter implements DevicePort {
   public List<Device> getAllDevices(int deploymentId) {
     var query =
         em.createQuery(
-            "SELECT d FROM DeviceEntity d WHERE d.deploymentId = :deploymentId",
+            "SELECT d FROM DeviceEntity d " +
+                    "JOIN DeviceTypeOrdering dto ON d.deviceType = dto.deviceType " +
+                    "WHERE d.deploymentId = :deploymentId " +
+                    "ORDER BY dto.orderKey",
             DeviceEntity.class);
     return query.setParameter("deploymentId", deploymentId).getResultList().stream()
         .map(DeviceEntity::toDevice)

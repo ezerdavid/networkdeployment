@@ -45,11 +45,12 @@ public class DeviceController {
   }
 
   @GetMapping("{deploymentId}/devices/{macAddress}")
-  public ResponseEntity<RegisteredDeviceResponse> getDevice(@PathVariable String macAddress, @PathVariable String deploymentId) {
+  public ResponseEntity<RegisteredDeviceResponse> getDevice(
+      @PathVariable String macAddress, @PathVariable String deploymentId) {
     log.atInfo()
-            .addKeyValue("deploymentId", deploymentId)
-            .addKeyValue("macAddress", macAddress)
-            .log("Getting device for deployment");
+        .addKeyValue("deploymentId", deploymentId)
+        .addKeyValue("macAddress", macAddress)
+        .log("Getting device for deployment");
 
     var device = getDevice.handle(macAddress);
     var response = new RegisteredDeviceResponse(device);

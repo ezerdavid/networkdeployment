@@ -29,7 +29,6 @@ public class DeviceEntity {
     macAddress = device.macAddress();
     deploymentId = device.deploymentId();
     deviceType = device.deviceType().toString();
-    sortingKey = device.deviceType().orderNumber();
     this.uplinkMacAddress = uplinkMacAddress;
   }
 
@@ -40,11 +39,6 @@ public class DeviceEntity {
   private int deploymentId;
 
   private String deviceType;
-
-  private int sortingKey;
-
-  @Formula("case division when 'BRONZE' then 0 when 'SILVER' then 1 ... end")
-  private int deviceSortingWeight;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "UPLINK_MAC_ADDRESS", referencedColumnName = "MAC_ADDRESS")
