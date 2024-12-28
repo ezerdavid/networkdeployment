@@ -7,15 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "DEVICES", schema = "PUBLIC")
@@ -25,11 +24,11 @@ import org.hibernate.annotations.Formula;
 @Data
 public class DeviceEntity {
 
-  public DeviceEntity(Device device, DeviceEntity uplinkMacAddress) {
+  public DeviceEntity(Device device) {
     macAddress = device.macAddress();
     deploymentId = device.deploymentId();
     deviceType = device.deviceType().toString();
-    this.uplinkMacAddress = uplinkMacAddress;
+    uplinkMacAddress = device.upLinkMacAddress();
   }
 
   @Id
@@ -40,15 +39,19 @@ public class DeviceEntity {
 
   private String deviceType;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "UPLINK_MAC_ADDRESS", referencedColumnName = "MAC_ADDRESS")
-  private DeviceEntity uplinkMacAddress;
+  @Column(name = "UPLINK_MAC_ADDRESS")
+  private String uplinkMacAddress;
 
-  @OneToMany(mappedBy = "uplinkMacAddress", fetch = FetchType.LAZY)
-  private Set<DeviceEntity> connectedDevices;
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "UPLINK_MAC_ADDRESS")
+  private Set<DeviceEntity> linkedDevices;
 
   public Device toDevice() {
-    var uplink = uplinkMacAddress == null ? null : uplinkMacAddress.getMacAddress();
-    return new Device(DeviceType.fromText(deviceType), macAddress, uplink, deploymentId);
+    var linked = this.linkedDevices
+            .stream()
+            .map(DeviceEntity::toDevice)
+            .collect(Collectors.toSet());
+
+    return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, deploymentId, linked);
   }
 }

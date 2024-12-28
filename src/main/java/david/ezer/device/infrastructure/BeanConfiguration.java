@@ -3,6 +3,7 @@ package david.ezer.device.infrastructure;
 import david.ezer.device.DevicePort;
 import david.ezer.device.GetAllDevices;
 import david.ezer.device.GetDevice;
+import david.ezer.device.GetDevicesTopology;
 import david.ezer.device.RegisterDevice;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +30,10 @@ public class BeanConfiguration {
   @Bean
   public GetDevice getDevice(DevicePort deploymentRepository) {
     return new GetDevice(deploymentRepository);
+  }
+
+  @Bean
+  public GetDevicesTopology getDevicesTopology(DevicePort deploymentRepository) {
+    return new GetDevicesTopology(deploymentRepository);
   }
 }

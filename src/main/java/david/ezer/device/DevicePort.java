@@ -9,4 +9,6 @@ public interface DevicePort {
   List<Device> getAllDevices(int deploymentId);
 
   Device getDevice(String macAddress);
+
+  List<Device> getDevicesTopology();
 }

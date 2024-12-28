@@ -1,7 +1,7 @@
 package david.ezer.device.infrastructure;
 
-import david.ezer.device.DevicePort;
 import david.ezer.device.Device;
+import david.ezer.device.DevicePort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -16,11 +16,7 @@ public class DeviceInMemoryAdapter implements DevicePort {
   @Override
   @Transactional
   public String registerDevice(Device device) {
-    var uplink =
-        device.upLinkMacAddress() == null
-            ? null
-            : em.find(DeviceEntity.class, device.upLinkMacAddress());
-    var entity = new DeviceEntity(device, uplink);
+    var entity = new DeviceEntity(device);
     var saved = em.merge(entity);
 
     return saved.getMacAddress();
@@ -30,10 +26,10 @@ public class DeviceInMemoryAdapter implements DevicePort {
   public List<Device> getAllDevices(int deploymentId) {
     var query =
         em.createQuery(
-            "SELECT d FROM DeviceEntity d " +
-                    "JOIN DeviceTypeOrdering dto ON d.deviceType = dto.deviceType " +
-                    "WHERE d.deploymentId = :deploymentId " +
-                    "ORDER BY dto.orderKey",
+            "SELECT d FROM DeviceEntity d "
+                + "JOIN DeviceTypeOrdering dto ON d.deviceType = dto.deviceType "
+                + "WHERE d.deploymentId = :deploymentId "
+                + "ORDER BY dto.orderKey",
             DeviceEntity.class);
     return query.setParameter("deploymentId", deploymentId).getResultList().stream()
         .map(DeviceEntity::toDevice)
@@ -42,9 +38,18 @@ public class DeviceInMemoryAdapter implements DevicePort {
 
   @Override
   public Device getDevice(String macAddress) {
+    return em.find(DeviceEntity.class, macAddress).toDevice();
+  }
+
+  @Override
+  public List<Device> getDevicesTopology() {
+    var deviceEntityGraph = em.createEntityGraph(DeviceEntity.class);
     var query =
         em.createQuery(
-            "SELECT d FROM DeviceEntity d WHERE d.macAddress = :macAddress", DeviceEntity.class);
-    return query.setParameter("macAddress", macAddress).getSingleResult().toDevice();
+            "SELECT d FROM DeviceEntity d WHERE d.uplinkMacAddress IS NULL", DeviceEntity.class);
+    deviceEntityGraph.addAttributeNodes(DeviceEntity_.linkedDevices);
+    query.setHint("jakarta.persistence.fetchgraph", deviceEntityGraph);
+
+    return query.getResultList().stream().map(DeviceEntity::toDevice).toList();
   }
 }

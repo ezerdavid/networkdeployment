@@ -2,9 +2,12 @@ package david.ezer.device.api;
 
 import david.ezer.device.GetAllDevices;
 import david.ezer.device.GetDevice;
+import david.ezer.device.GetDevicesTopology;
 import david.ezer.device.RegisterDevice;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ public class DeviceController {
 
   private final GetAllDevices getAllDevices;
   private final GetDevice getDevice;
+  private final GetDevicesTopology getDevicesTopology;
   private final RegisterDevice registerDevice;
 
   @PostMapping("{deploymentId}/devices")
@@ -56,5 +60,15 @@ public class DeviceController {
     var response = new RegisteredDeviceResponse(device);
 
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/devices/topology")
+  public ResponseEntity<Set<DeviceTopologyResponse>> getTopology() {
+    var topology =
+        getDevicesTopology.handle().stream()
+            .map(DeviceTopologyResponse::new)
+            .collect(Collectors.toSet());
+
+    return ResponseEntity.ok(topology);
   }
 }
