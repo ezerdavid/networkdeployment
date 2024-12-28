@@ -3,6 +3,7 @@ package david.ezer.device.api;
 import david.ezer.device.GetAllDevices;
 import david.ezer.device.GetDevice;
 import david.ezer.device.GetDevicesTopology;
+import david.ezer.device.GetSingleDeviceTopology;
 import david.ezer.device.RegisterDevice;
 import java.net.URI;
 import java.util.List;
@@ -25,6 +26,7 @@ public class DeviceController {
   private final GetAllDevices getAllDevices;
   private final GetDevice getDevice;
   private final GetDevicesTopology getDevicesTopology;
+  private final GetSingleDeviceTopology getSingleDeviceTopology;
   private final RegisterDevice registerDevice;
 
   @PostMapping("{deploymentId}/devices")
@@ -70,5 +72,13 @@ public class DeviceController {
             .collect(Collectors.toSet());
 
     return ResponseEntity.ok(topology);
+  }
+
+  @GetMapping("/devices/topology/{macAddress}")
+  public ResponseEntity<DeviceTopologyResponse> getDeviceTopology(@PathVariable String macAddress) {
+    var device = getSingleDeviceTopology.handle(macAddress);
+    var response = new DeviceTopologyResponse(device);
+
+    return ResponseEntity.ok(response);
   }
 }

@@ -11,4 +11,6 @@ public interface DevicePort {
   Device getDevice(String macAddress);
 
   List<Device> getDevicesTopology();
+
+  Device getSingleDeviceTopology(String macAddress);
 }

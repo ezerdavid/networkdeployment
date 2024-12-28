@@ -5,6 +5,7 @@ import david.ezer.device.DevicePort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -51,5 +52,16 @@ public class DeviceInMemoryAdapter implements DevicePort {
     query.setHint("jakarta.persistence.fetchgraph", deviceEntityGraph);
 
     return query.getResultList().stream().map(DeviceEntity::toDevice).toList();
+  }
+
+  @Override
+  public Device getSingleDeviceTopology(String macAddress) {
+    var deviceEntityGraph = em.createEntityGraph(DeviceEntity.class);
+    deviceEntityGraph.addAttributeNodes(DeviceEntity_.linkedDevices);
+    return em.find(
+            DeviceEntity.class,
+            macAddress,
+            Collections.singletonMap("jakarta.persistence.fetchgraph", deviceEntityGraph))
+        .toDevice();
   }
 }
