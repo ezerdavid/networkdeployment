@@ -24,6 +24,10 @@ public enum DeviceType {
 
   @JsonCreator
   public static DeviceType fromText(String value) {
+    if (value == null) {
+      throw new UnknownDeviceTypeException("null");
+    }
+
     return switch (value) {
       case DeviceType.GATEWAY_VALUE -> GATEWAY;
       case DeviceType.SWITCH_VALUE -> SWITCH;
