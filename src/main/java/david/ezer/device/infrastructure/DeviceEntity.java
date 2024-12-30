@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -44,8 +45,10 @@ public class DeviceEntity {
   private Set<DeviceEntity> linkedDevices;
 
   public Device toDevice() {
-    var linked =
-        this.linkedDevices.stream().map(DeviceEntity::toDevice).collect(Collectors.toSet());
+    Set<Device> linked = new HashSet<>();
+    if (linkedDevices != null) {
+      linked = this.linkedDevices.stream().map(DeviceEntity::toDevice).collect(Collectors.toSet());
+    }
 
     return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, linked);
   }

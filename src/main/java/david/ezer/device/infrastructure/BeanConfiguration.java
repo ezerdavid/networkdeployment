@@ -13,32 +13,32 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
   @Bean
-  public DevicePort deploymentRepository(DeviceInMemoryAdapter deploymentInMemoryRepository) {
-    return deploymentInMemoryRepository;
+  public DevicePort devicePort(DeviceInMemoryAdapter deviceInMemoryAdapter) {
+    return deviceInMemoryAdapter;
   }
 
   @Bean
-  public RegisterDevice registerDevice(DevicePort deploymentRepository) {
-    return new RegisterDevice(deploymentRepository);
+  public RegisterDevice registerDevice(DevicePort devicePort) {
+    return new RegisterDevice(devicePort);
   }
 
   @Bean
-  public GetAllDevices getAllDevices(DevicePort deploymentRepository) {
-    return new GetAllDevices(deploymentRepository);
+  public GetAllDevices getAllDevices(DevicePort devicePort) {
+    return new GetAllDevices(devicePort);
   }
 
   @Bean
-  public GetDevice getDevice(DevicePort deploymentRepository) {
-    return new GetDevice(deploymentRepository);
+  public GetDevice getDevice(DevicePort devicePort) {
+    return new GetDevice(devicePort);
   }
 
   @Bean
-  public GetDevicesTopology getDevicesTopology(DevicePort deploymentRepository) {
-    return new GetDevicesTopology(deploymentRepository);
+  public GetDevicesTopology getDevicesTopology(DevicePort devicePort) {
+    return new GetDevicesTopology(devicePort);
   }
 
   @Bean
-  public GetSingleDeviceTopology getSingleDeviceTopology(DevicePort deploymentRepository) {
-    return new GetSingleDeviceTopology(deploymentRepository);
+  public GetSingleDeviceTopology getSingleDeviceTopology(DevicePort devicePort) {
+    return new GetSingleDeviceTopology(devicePort);
   }
 }
