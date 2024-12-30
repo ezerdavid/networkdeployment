@@ -29,7 +29,7 @@ public class DeviceExceptionHandler extends ResponseEntityExceptionHandler {
     log.atError().log(e.getErrorMessage(), e);
     var errorResponse = new ErrorResponse(e.getErrorMessage());
     return handleExceptionInternal(
-            e, errorResponse, new HttpHeaders(), UnknownDeviceTypeException.STATUS_CODE, request);
+            e, errorResponse, new HttpHeaders(), InvalidMacAddressException.STATUS_CODE, request);
   }
 
   @ExceptionHandler(value = DeviceNotFoundException.class)
