@@ -52,4 +52,8 @@ public class DeviceEntity {
 
     return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, linked);
   }
+
+  public Device toDeviceWithoutLinkedDevices() {
+    return new Device(DeviceType.fromText(deviceType), macAddress, uplinkMacAddress, new HashSet<>());
+  }
 }

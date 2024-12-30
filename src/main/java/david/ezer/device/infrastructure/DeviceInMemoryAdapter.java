@@ -31,7 +31,7 @@ public class DeviceInMemoryAdapter implements DevicePort {
                 + "JOIN DeviceTypeOrdering dto ON d.deviceType = dto.deviceType "
                 + "ORDER BY dto.orderKey",
             DeviceEntity.class);
-    return query.getResultList().stream().map(DeviceEntity::toDevice).toList();
+    return query.getResultList().stream().map(DeviceEntity::toDeviceWithoutLinkedDevices).toList();
   }
 
   @Override
