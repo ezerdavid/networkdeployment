@@ -42,7 +42,7 @@ public class DeviceInMemoryAdapter implements DevicePort {
       throw new DeviceNotFoundException(macAddress);
     }
 
-    return foundEntity.toDevice();
+    return foundEntity.toDeviceWithoutLinkedDevices();
   }
 
   @Override
