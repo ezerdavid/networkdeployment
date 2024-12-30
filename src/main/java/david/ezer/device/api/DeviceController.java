@@ -73,7 +73,9 @@ public class DeviceController {
 
   @GetMapping("/devices/topology/{macAddress}")
   public ResponseEntity<DeviceTopologyResponse> getDeviceTopology(@PathVariable String macAddress) {
-    log.atInfo().addKeyValue(Device.Fields.macAddress, macAddress).log("Get single device topology");
+    log.atInfo()
+        .addKeyValue(Device.Fields.macAddress, macAddress)
+        .log("Get single device topology");
     var device = getSingleDeviceTopology.handle(macAddress);
     var response = new DeviceTopologyResponse(device);
 

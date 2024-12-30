@@ -42,7 +42,7 @@ class DeviceTest {
     assertThrows(
         InvalidMacAddressException.class,
         () -> new Device(deviceType, macAddress, uplinkMacAddress, connectedDevices),
-            message);
+        message);
   }
 
   private static Stream<Arguments> throwOnInvalidMacAddress() {
@@ -52,10 +52,12 @@ class DeviceTest {
         Arguments.of("", null, "Should throw on invalid mac address"),
         Arguments.of(null, null, "Should throw on invalid mac address"),
         Arguments.of("00-b0-d0-63-c2-7&", null, "Should throw on invalid mac address"),
-        Arguments.of("00-B0-D0-63-C2-51", "00-B0-D0-63-C2", "Should throw on invalid uplink address"),
-        Arguments.of("00-B0-D0-63-C2-51", "00-B0-D0-63-C2-51-88", "Should throw on invalid uplink address"),
-        Arguments.of("00-B0-D0-63-C2-51", "00-b0-d0-63-c2-7&", "Should throw on invalid uplink address"),
+        Arguments.of(
+            "00-B0-D0-63-C2-51", "00-B0-D0-63-C2", "Should throw on invalid uplink address"),
+        Arguments.of(
+            "00-B0-D0-63-C2-51", "00-B0-D0-63-C2-51-88", "Should throw on invalid uplink address"),
+        Arguments.of(
+            "00-B0-D0-63-C2-51", "00-b0-d0-63-c2-7&", "Should throw on invalid uplink address"),
         Arguments.of("00-B0-D0-63-C2-51", "", "Should throw on invalid uplink address"));
   }
-
 }

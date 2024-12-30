@@ -30,7 +30,10 @@ class DeviceControllerTest {
 
     // THEN
     assertNotNull(location, "Expected location to be created");
-    assertEquals(URI.create(String.format("/devices/%s", macAddress)), location, "Location didn't match expected format");
+    assertEquals(
+        URI.create(String.format("/devices/%s", macAddress)),
+        location,
+        "Location didn't match expected format");
   }
 
   @Test
@@ -40,11 +43,16 @@ class DeviceControllerTest {
     var switchMacAddress = "00:00:00:00:00:01";
     var accessPointMacAddress = "00:00:00:00:00:02";
     var registerGatewayRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
     var registerSwitchRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(
+                DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
     var registerAccessPointRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.ACCESS_POINT_VALUE, accessPointMacAddress, gatewayMacAddress));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(
+                DeviceType.ACCESS_POINT_VALUE, accessPointMacAddress, gatewayMacAddress));
     restTemplate.postForLocation("/devices", registerGatewayRequest);
     restTemplate.postForLocation("/devices", registerSwitchRequest);
     restTemplate.postForLocation("/devices", registerAccessPointRequest);
@@ -70,7 +78,8 @@ class DeviceControllerTest {
     // GIVEN
     var gatewayMacAddress = "00:00:00:00:00:00";
     var registerGatewayRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
     var location = restTemplate.postForLocation("/devices", registerGatewayRequest);
 
     // WHEN
@@ -88,11 +97,15 @@ class DeviceControllerTest {
     var switchMacAddress = "00:00:00:00:00:01";
     var gateway2MacAddress = "00:00:00:00:00:02";
     var registerGatewayRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
     var registerSwitchRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(
+                DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
     var registerAccessPointRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gateway2MacAddress, null));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gateway2MacAddress, null));
     restTemplate.postForLocation("/devices", registerGatewayRequest);
     restTemplate.postForLocation("/devices", registerSwitchRequest);
     restTemplate.postForLocation("/devices", registerAccessPointRequest);
@@ -122,23 +135,33 @@ class DeviceControllerTest {
     var switchMacAddress = "00:00:00:00:00:01";
     var accessPointMacAddress = "00:00:00:00:00:02";
     var registerGatewayRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(DeviceType.GATEWAY_VALUE, gatewayMacAddress, null));
     var registerSwitchRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(
+                DeviceType.SWITCH_VALUE, switchMacAddress, gatewayMacAddress));
     var registerAccessPointRequest =
-            new HttpEntity<>(new RegisterDeviceRequest(DeviceType.ACCESS_POINT_VALUE, accessPointMacAddress, switchMacAddress));
+        new HttpEntity<>(
+            new RegisterDeviceRequest(
+                DeviceType.ACCESS_POINT_VALUE, accessPointMacAddress, switchMacAddress));
     restTemplate.postForLocation("/devices", registerGatewayRequest);
     restTemplate.postForLocation("/devices", registerSwitchRequest);
     restTemplate.postForLocation("/devices", registerAccessPointRequest);
 
     // WHEN
-    var response = restTemplate.getForObject(String.format("/devices/topology/%s", switchMacAddress), DeviceTopologyResponse.class);
+    var response =
+        restTemplate.getForObject(
+            String.format("/devices/topology/%s", switchMacAddress), DeviceTopologyResponse.class);
 
     // THEN
     assertEquals(switchMacAddress, response.macAddress(), "Unexpected mac address");
     var firstLinkedDevice = response.linkedDevices();
     assertEquals(1, firstLinkedDevice.size(), "Expected 1 linked device");
     var linkedDevice = firstLinkedDevice.iterator().next();
-    assertEquals(accessPointMacAddress, linkedDevice.macAddress(), "Unexpected mac address for linked device");
+    assertEquals(
+        accessPointMacAddress,
+        linkedDevice.macAddress(),
+        "Unexpected mac address for linked device");
   }
 }

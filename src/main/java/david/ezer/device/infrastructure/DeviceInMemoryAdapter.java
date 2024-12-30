@@ -61,7 +61,8 @@ public class DeviceInMemoryAdapter implements DevicePort {
   public Device getSingleDeviceTopology(String macAddress) {
     var deviceEntityGraph = em.createEntityGraph(DeviceEntity.class);
     deviceEntityGraph.addAttributeNodes(DeviceEntity_.linkedDevices);
-    var foundEntity = em.find(
+    var foundEntity =
+        em.find(
             DeviceEntity.class,
             macAddress,
             Collections.singletonMap("jakarta.persistence.fetchgraph", deviceEntityGraph));

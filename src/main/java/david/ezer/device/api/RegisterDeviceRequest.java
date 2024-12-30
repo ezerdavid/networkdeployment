@@ -8,9 +8,6 @@ public record RegisterDeviceRequest(String deviceType, String macAddress, String
 
   public Device toDevice() {
     return new Device(
-        DeviceType.fromText(deviceType),
-        macAddress,
-        upLinkMacAddress,
-        new HashSet<>());
+        DeviceType.fromText(deviceType), macAddress, upLinkMacAddress, new HashSet<>());
   }
 }

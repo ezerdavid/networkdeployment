@@ -22,7 +22,8 @@ class DeviceInMemoryAdapterTest {
     // GIVEN
     var gatewayDevice = new Device(DeviceType.GATEWAY, "00:00:00:00:00:00", null, Set.of());
     var switchDevice = new Device(DeviceType.SWITCH, "00:00:00:00:00:01", null, Set.of());
-    var accessPointDevice = new Device(DeviceType.ACCESS_POINT, "00:00:00:00:00:02", null, Set.of());
+    var accessPointDevice =
+        new Device(DeviceType.ACCESS_POINT, "00:00:00:00:00:02", null, Set.of());
     devicePort.registerDevice(switchDevice);
     devicePort.registerDevice(accessPointDevice);
     devicePort.registerDevice(gatewayDevice);
@@ -32,9 +33,13 @@ class DeviceInMemoryAdapterTest {
 
     // THEN
     assertEquals(3, devices.size(), "Expected 3 device");
-    assertEquals(DeviceType.GATEWAY, devices.getFirst().deviceType(), "Expected gateway device to be first");
-    assertEquals(DeviceType.SWITCH, devices.get(1).deviceType(), "Expected switch device to be second");
-    assertEquals(DeviceType.ACCESS_POINT, devices.get(2).deviceType(), "Expected access point device to be third");
+    assertEquals(
+        DeviceType.GATEWAY, devices.getFirst().deviceType(), "Expected gateway device to be first");
+    assertEquals(
+        DeviceType.SWITCH, devices.get(1).deviceType(), "Expected switch device to be second");
+    assertEquals(
+        DeviceType.ACCESS_POINT,
+        devices.get(2).deviceType(),
+        "Expected access point device to be third");
   }
-
 }
