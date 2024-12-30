@@ -1,6 +1,6 @@
 ## How to run
 Project uses Java 21.<br>
-The service can be started from command line with command `mvn spring-boot:run`
+The service can be started from command line with command `mvn spring-boot:run` or using wrapper `./mvnw spring-boot:run`
 ## API
 By default, the server run on port `8080`
 ### Example requests
